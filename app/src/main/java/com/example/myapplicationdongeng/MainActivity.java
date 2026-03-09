@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //set transparent statusbar
+        //set transparent status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         rvListDongeng = findViewById(R.id.rvListDongeng);
         searchTanaman = findViewById(R.id.searchTanaman);
 
-        //transparent background searchview
+        //transparent background search view
         int searchPlateId = searchTanaman.getContext()
                 .getResources().getIdentifier("android:id/search_plate", null, null);
         View searchPlate = searchTanaman.findViewById(searchPlateId);

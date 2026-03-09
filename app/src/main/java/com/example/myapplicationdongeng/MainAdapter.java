@@ -9,6 +9,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,16 +18,16 @@ import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> implements Filterable {
 
-    private Context context;
-    private List<ModelMain> modelMainList;
-    private List<ModelMain> modelMainFilterList;
+    private final Context context;
+    private final List<ModelMain> modelMainList;
+    private final List<ModelMain> modelMainFilterList;
 
     @Override
     public Filter getFilter() {
         return modelFilter;
     }
 
-    private Filter modelFilter = new Filter() {
+    private final Filter modelFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<ModelMain> filteredList = new ArrayList<>();
@@ -59,6 +60,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         this.modelMainFilterList = new ArrayList<>(modelMain);
     }
 
+    @NonNull
     @Override
     public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

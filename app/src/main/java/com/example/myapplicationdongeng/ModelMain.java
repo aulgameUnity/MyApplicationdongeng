@@ -24,10 +24,5 @@ public class ModelMain implements Serializable {
         this.strCerita = strCerita;
     }
 
-    public static Comparator<ModelMain> sortByAsc = new Comparator<ModelMain>() {
-        @Override
-        public int compare(ModelMain o1, ModelMain o2) {
-            return o1.strJudul.compareTo(o2.strJudul);
-        }
-    };
+    public static Comparator<ModelMain> sortByAsc = Comparator.comparing(o -> o.strJudul);
 }
