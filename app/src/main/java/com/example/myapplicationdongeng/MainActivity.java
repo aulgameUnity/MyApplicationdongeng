@@ -1,9 +1,6 @@
 package com.example.myapplicationdongeng;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
@@ -15,6 +12,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity {
 
     List<ModelMain> modelMain = new ArrayList<>();
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvListDongeng;
     SearchView searchTanaman;
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         searchTanaman = findViewById(R.id.searchTanaman);
 
         //transparent background search view
-        int searchPlateId = searchTanaman.getContext()
+        @SuppressLint("DiscouragedApi") int searchPlateId = searchTanaman.getContext()
                 .getResources().getIdentifier("android:id/search_plate", null, null);
         View searchPlate = searchTanaman.findViewById(searchPlateId);
         if (searchPlate != null) {
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         getDataDongeng();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataDongeng() {
         try {
             InputStream stream = getAssets().open("list_dongeng.json");
