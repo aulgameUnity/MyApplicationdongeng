@@ -72,13 +72,19 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mainAdapter.getFilter().filter(newText);
+               mainAdapter.getFilter().filter(newText);
+                if (mainAdapter != null) {
+                    mainAdapter.getFilter().filter(newText);
+                }
                 return true;
             }
         });
 
         rvListDongeng.setLayoutManager(new LinearLayoutManager(this));
         rvListDongeng.setHasFixedSize(true);
+
+        mainAdapter = new MainAdapter(this, modelMain);
+        rvListDongeng.setAdapter(mainAdapter);
 
         //get data json
         getDataDongeng();
@@ -87,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("NotifyDataSetChanged")
     private void getDataDongeng() {
         try {
-            InputStream stream = getAssets().open("list_dongeng.json");
             int size = stream.available();
             byte[] buffer = new byte[size];
             stream.read(buffer);
@@ -104,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
                     modelMain.add(dataApi);
                 }
                 mainAdapter = new MainAdapter(this, modelMain);
-                rvListDongeng.setAdapter(mainAdapter);
                 Collections.sort(modelMain, ModelMain.sortByAsc);
                 mainAdapter.notifyDataSetChanged();
+                mainAdapter.setModelMainList(modelMain);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
