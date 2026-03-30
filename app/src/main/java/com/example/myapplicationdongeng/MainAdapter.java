@@ -22,7 +22,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
     private final Context context;
     private final List<ModelMain> modelMainList;
-    private final List<ModelMain> modelMainFilterList;
+    private List<ModelMain> modelMainFilterList;
 
     @Override
     public Filter getFilter() {
@@ -91,6 +91,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         return modelMainList.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void setModelMainList(List<ModelMain> modelMainList) {
+        this.modelMainList.clear();
+        this.modelMainList.addAll(modelMainList);
+        this.modelMainFilterList = new ArrayList<>(modelMainList);
+        notifyDataSetChanged();
+    }
+
     public static class MainViewHolder extends RecyclerView.ViewHolder {
 
         CardView cvDongeng;
@@ -103,4 +111,3 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         }
     }
 }
-
