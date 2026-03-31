@@ -1,5 +1,7 @@
 package com.example.myapplicationdongeng;
 
+import android.annotation.SuppressLint;
+
 import java.io.Serializable;
 import java.util.Comparator;
 
@@ -24,5 +26,6 @@ public class ModelMain implements Serializable {
         this.strCerita = strCerita;
     }
 
+    @SuppressLint("NewApi")
     public static Comparator<ModelMain> sortByAsc = Comparator.comparing(o -> o.strJudul);
 }

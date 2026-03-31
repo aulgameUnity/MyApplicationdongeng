@@ -1,9 +1,11 @@
 package com.example.myapplicationdongeng;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
@@ -12,7 +14,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvListDongeng;
     SearchView searchTanaman;
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +55,6 @@ public class MainActivity extends AppCompatActivity {
         rvListDongeng = findViewById(R.id.rvListDongeng);
         searchTanaman = findViewById(R.id.searchTanaman);
 
-        //transparent background search view
-        int searchPlateId = searchTanaman.getContext()
-                .getResources().getIdentifier("android:id/search_plate", null, null);
-        View searchPlate = searchTanaman.findViewById(searchPlateId);
-        if (searchPlate != null) {
-            searchPlate.setBackgroundColor(Color.TRANSPARENT);
-        }
-
         searchTanaman.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchTanaman.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -70,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mainAdapter.getFilter().filter(newText);
+                if (mainAdapter != null) {
+                    mainAdapter.getFilter().filter(newText);
+                }
                 return true;
             }
         });
@@ -82,9 +78,11 @@ public class MainActivity extends AppCompatActivity {
         getDataDongeng();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataDongeng() {
         try {
-            InputStream stream = getAssets().open("list_dongeng.json");
+            // Perbaikan nama file sesuai yang ada di assets
+            InputStream stream = getAssets().open("ceritadongeng.json");
             int size = stream.available();
             byte[] buffer = new byte[size];
             stream.read(buffer);
@@ -107,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } catch (IOException ignored) {
-            Toast.makeText(MainActivity.this, "Ups, ada yang tidak beres. " +
-                    "Coba ulangi beberapa saat lagi.", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(MainActivity.this, "Gagal memuat data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

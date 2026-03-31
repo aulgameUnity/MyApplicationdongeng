@@ -1,5 +1,6 @@
 package com.example.myapplicationdongeng;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,6 +23,7 @@ public class DetailActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView tvJudul, tvCerita;
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

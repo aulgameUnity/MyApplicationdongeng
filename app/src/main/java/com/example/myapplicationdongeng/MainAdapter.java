@@ -1,5 +1,6 @@
 package com.example.myapplicationdongeng;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -46,6 +47,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             return results;
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             modelMainList.clear();
