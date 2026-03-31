@@ -1,10 +1,5 @@
 package com.example.myapplicationdongeng;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
@@ -14,8 +9,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
         rvListDongeng = findViewById(R.id.rvListDongeng);
         searchTanaman = findViewById(R.id.searchTanaman);
 
+        //transparent background search view
+        @SuppressLint("DiscouragedApi") int searchPlateId = searchTanaman.getContext()
+                .getResources().getIdentifier("android:id/search_plate", null, null);
+        View searchPlate = searchTanaman.findViewById(searchPlateId);
+        if (searchPlate != null) {
+            searchPlate.setBackgroundColor(Color.TRANSPARENT);
+        }
+
         searchTanaman.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchTanaman.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -64,9 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (mainAdapter != null) {
-                    mainAdapter.getFilter().filter(newText);
-                }
+                mainAdapter.getFilter().filter(newText);
                 return true;
             }
         });
@@ -81,8 +87,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("NotifyDataSetChanged")
     private void getDataDongeng() {
         try {
-            // Perbaikan nama file sesuai yang ada di assets
-            InputStream stream = getAssets().open("ceritadongeng.json");
+            InputStream stream = getAssets().open("list_dongeng.json");
             int size = stream.available();
             byte[] buffer = new byte[size];
             stream.read(buffer);
@@ -105,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(MainActivity.this, "Gagal memuat data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (IOException ignored) {
+            Toast.makeText(MainActivity.this, "Ups, ada yang tidak beres. " +
+                    "Coba ulangi beberapa saat lagi.", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange"
+    android:background="@color/pink"
     android:fitsSystemWindows="true">
 
     <include
@@ -58,7 +58,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/bg_shape"
-                android:backgroundTint="@color/orange" />
+                android:backgroundTint="@color/pink" />
 
         </RelativeLayout>
 

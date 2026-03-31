@@ -28,4 +28,10 @@ public class ModelMain implements Serializable {
 
     @SuppressLint("NewApi")
     public static Comparator<ModelMain> sortByAsc = Comparator.comparing(o -> o.strJudul);
+
+
+    public int compare(ModelMain o1, ModelMain o2) {
+        return o1.strJudul.compareTo(o2.strJudul);
+    }
 }
+
