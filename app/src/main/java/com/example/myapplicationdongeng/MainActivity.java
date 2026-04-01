@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.SearchView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +28,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     MainAdapter mainAdapter;
     RecyclerView rvListDongeng;
     SearchView searchTanaman;
+    ProgressBar progressBar;
 
     @SuppressLint("ObsoleteSdkInt")
     @Override
@@ -54,11 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
         rvListDongeng = findViewById(R.id.rvListDongeng);
         searchTanaman = findViewById(R.id.searchTanaman);
+        progressBar = findViewById(R.id.progressBar);
 
         //transparent background search view
-        @SuppressLint("DiscouragedApi") int searchPlateId = searchTanaman.getContext()
-                .getResources().getIdentifier("android:id/search_plate", null, null);
-        View searchPlate = searchTanaman.findViewById(searchPlateId);
+        View searchPlate = searchTanaman.findViewById(androidx.appcompat.R.id.search_plate);
         if (searchPlate != null) {
             searchPlate.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -72,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-               mainAdapter.getFilter().filter(newText);
                 if (mainAdapter != null) {
                     mainAdapter.getFilter().filter(newText);
                 }
@@ -86,39 +89,52 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter = new MainAdapter(this, modelMain);
         rvListDongeng.setAdapter(mainAdapter);
 
-        //get data json
+        //get data JSON in background thread
         getDataDongeng();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void getDataDongeng() {
-        try {
-            int size = stream.available();
-            byte[] buffer = new byte[size];
-            stream.read(buffer);
-            stream.close();
-            String strContent = new String(buffer, StandardCharsets.UTF_8);
+        if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
+        
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
             try {
-                JSONObject jsonObject = new JSONObject(strContent);
-                JSONArray jsonArray = jsonObject.getJSONArray("items");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    ModelMain dataApi = new ModelMain();
-                    dataApi.setStrCerita(object.getString("file"));
-                    dataApi.setStrJudul(object.getString("title"));
-                    modelMain.add(dataApi);
-                }
-                mainAdapter = new MainAdapter(this, modelMain);
-                Collections.sort(modelMain, ModelMain.sortByAsc);
-                mainAdapter.notifyDataSetChanged();
-                mainAdapter.setModelMainList(modelMain);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                InputStream stream = getAssets().open("ceritadongeng.json");
+                int size = stream.available();
+                byte[] buffer = new byte[size];
+                stream.read(buffer);
+                stream.close();
+                String strContent = new String(buffer, StandardCharsets.UTF_8);
+                
+                List<ModelMain> tempList = getModelMains(strContent);
+                Collections.sort(tempList, ModelMain.sortByAsc);
+
+                runOnUiThread(() -> {
+                    if (progressBar != null) progressBar.setVisibility(View.GONE);
+                    mainAdapter.setModelMainList(tempList);
+                });
+            } catch (IOException | JSONException e) {
+                runOnUiThread(() -> {
+                    if (progressBar != null) progressBar.setVisibility(View.GONE);
+                    Toast.makeText(MainActivity.this, "Ups, ada yang tidak beres.", Toast.LENGTH_SHORT).show();
+                });
             }
-        } catch (IOException ignored) {
-            Toast.makeText(MainActivity.this, "Ups, ada yang tidak beres. " +
-                    "Coba ulangi beberapa saat lagi.", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    @NonNull
+    private static List<ModelMain> getModelMains(String strContent) throws JSONException {
+        JSONObject jsonObject = new JSONObject(strContent);
+        JSONArray jsonArray = jsonObject.getJSONArray("items");
+        List<ModelMain> tempList = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject object = jsonArray.getJSONObject(i);
+            ModelMain dataApi = new ModelMain();
+            dataApi.setStrCerita(object.getString("file"));
+            dataApi.setStrJudul(object.getString("title"));
+            tempList.add(dataApi);
         }
+        return tempList;
     }
 
     public static void setWindowFlag(Activity activity, final int bits, boolean on) {
