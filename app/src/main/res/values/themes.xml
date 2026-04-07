@@ -1,22 +1,33 @@
 <resources>
-<!-- Base application theme. -->
-<style name="Theme.CeritaDongeng" parent="Theme.MaterialComponents.Light.NoActionBar">
-    <item name="colorPrimary">@color/pink</item>
-    <item name="colorPrimaryVariant">@color/pink</item>
-    <item name="colorOnPrimary">@color/white</item>
-    <item name="colorSecondary">@color/pink</item>
-    <item name="colorSecondaryVariant">@color/pink</item>
-    <item name="colorOnSecondary">@color/black</item>
-    <item name="android:statusBarColor">@color/pink</item>
-    <item name="android:fontFamily">@font/next_sunday</item>
-</style>
+    <!-- Tema dasar aplikasi. -->
+    <style name="Theme.CeritaDongeng" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Warna utama aplikasi yang muncul pada elemen UI paling dominan -->
+        <item name="colorPrimary">@color/pink</item>
+        <!-- Variasi dari warna utama -->
+        <item name="colorPrimaryVariant">@color/pink</item>
+        <!-- Warna untuk teks atau ikon yang muncul di atas warna utama -->
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Warna sender yang digunakan sebagai aksen (seperti tombol atau switch) -->
+        <item name="colorSecondary">@color/pink</item>
+        <!-- Variasi dari warna sekunder -->
+        <item name="colorSecondaryVariant">@color/pink</item>
+        <!-- Warna untuk teks atau ikon yang muncul di atas warna sekunder -->
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Warna untuk bilah status di bagian paling atas layar ponsel -->
+        <item name="android:statusBarColor">@color/pink</item>
+        <!-- Jenis font (
+        huruf) yang digunakan secara default di seluruh aplikasi -->
+        <item name="android:fontFamily">@font/next_sunday</item>
+    </style>
 
-    <!-- Use ThemeOverlay as parent when using with android:theme to avoid infinite cycles.
-         Inheriting from Widget.AppCompat.SearchView while using it as a theme
-         causes circular lookups for attributes like textAppearance. -->
-<style name="SearchView" parent="ThemeOverlay.AppCompat.Dark">
-<item name="android:editTextColor">@android:color/white</item>
-<item name="android:textColorHint">@android:color/white</item>
-<item name="android:textStyle">bold</item>
-</style>
+    <!-- Tema khusus untuk tampilan pencarian (SearchView).
+         Menggunakan ThemeOverlay agar tidak terjadi konflik atribut. -->
+    <style name="SearchView" parent="ThemeOverlay.AppCompat.Dark">
+        <!-- Warna teks saat pengguna mengetik di kotak pencarian -->
+        <item name="android:editTextColor">@android:color/white</item>
+        <!-- Warna teks petunjuk (hint) seperti "Cari di sini..." -->
+        <item name="android:textColorHint">@android:color/white</item>
+        <!-- Membuat teks di dalam pencarian menjadi tebal -->
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
