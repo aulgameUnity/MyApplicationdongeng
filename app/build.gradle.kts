@@ -23,9 +23,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Memaksa menggunakan signing config debug agar tidak error 'externalOverride'
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -33,8 +35,6 @@ android {
 }
 
 dependencies {
-
-    //noinspection UseTomlInstead
     implementation("com.google.code.gson:gson:2.14.0")
     implementation(libs.appcompat)
     implementation(libs.material)
