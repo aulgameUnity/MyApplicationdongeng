@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <!-- Background Image - Ganti @drawable/download dengan gambar latar belakang Anda -->
+    <!-- Background Image -->
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,23 +30,22 @@
             android:layout_height="60dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/bg_button_menu"
-            android:text="Mulai"
+            android:text="Mulai Membaca"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText,VisualLintButtonSize" />
 
-        <!-- Tombol
-        Daftar Dongeng -->
+        <!-- Tombol Cerita Dibaca -->
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnDaftar"
+            android:id="@+id/btnRiwayat"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/bg_button_menu"
-            android:backgroundTint="#D81B60"
-            android:text="Daftar Dongeng"
+            android:backgroundTint="#1976D2"
+            android:text="Terakhir Dibaca"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -59,7 +59,7 @@
             android:layout_height="60dp"
             android:background="@drawable/bg_button_menu"
             android:backgroundTint="#6A1B9A"
-            android:text="Tentang"
+            android:text="Tentang Aplikasi"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp"

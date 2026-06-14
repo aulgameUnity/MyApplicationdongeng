@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Kumpulan Cerita Dongeng</string>
+    <string name="mempersiapkan_cerita">Mempersiapkan cerita...</string>
+    <string name="mohon_tunggu_sebentar_ya">by AAV Studio</string>
 </resources>

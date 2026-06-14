@@ -23,6 +23,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -33,6 +34,8 @@ android {
 
 dependencies {
 
+    //noinspection UseTomlInstead
+    implementation("com.google.code.gson:gson:2.14.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

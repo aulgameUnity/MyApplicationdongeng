@@ -1,5 +1,6 @@
 package com.example.myapplicationdongeng;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -7,11 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,18 +33,16 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         Button btnMulai = findViewById(R.id.btnMulai);
-        Button btnDaftar = findViewById(R.id.btnDaftar);
+        Button btnRiwayat = findViewById(R.id.btnRiwayat);
         Button btnTentang = findViewById(R.id.btnTentang);
 
-        // Klik Tombol Mulai atau Daftar Dongeng untuk ke halaman utama
+        // Ke halaman utama (Daftar Cerita)
         btnMulai.setOnClickListener(v -> startActivity(new Intent(SplashActivity.this, MainActivity.class)));
 
-        btnDaftar.setOnClickListener(v -> startActivity(new Intent(SplashActivity.this, MainActivity.class)));
+        // Ke halaman Riwayat (Cerita yang sudah dibaca)
+        btnRiwayat.setOnClickListener(v -> startActivity(new Intent(SplashActivity.this, HistoryActivity.class)));
 
-        // Klik Tombol Tentang (Bisa Anda isi dengan info pembuat)
-        btnTentang.setOnClickListener(v -> {
-            // Contoh: Munculkan pesan singkat
-            android.widget.Toast.makeText(SplashActivity.this, "Aplikasi Kumpulan Cerita Dongeng v1.0", android.widget.Toast.LENGTH_SHORT).show();
-        });
+        // Klik Tombol Tentang
+        btnTentang.setOnClickListener(v -> Toast.makeText(SplashActivity.this, "Aplikasi Kumpulan Cerita Dongeng v1.0", Toast.LENGTH_SHORT).show());
     }
 }

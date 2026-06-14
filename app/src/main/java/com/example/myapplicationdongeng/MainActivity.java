@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 public class MainActivity extends AppCompatActivity {
 
     List<ModelMain> modelMain = new ArrayList<>();
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //set transparent status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -61,19 +59,12 @@ public class MainActivity extends AppCompatActivity {
         searchTanaman = findViewById(R.id.searchTanaman);
         progressBar = findViewById(R.id.progressBar);
 
-        //transparent background search view
-        View searchPlate = searchTanaman.findViewById(androidx.appcompat.R.id.search_plate);
-        if (searchPlate != null) {
-            searchPlate.setBackgroundColor(Color.TRANSPARENT);
-        }
-
         searchTanaman.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchTanaman.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (mainAdapter != null) {
@@ -85,17 +76,15 @@ public class MainActivity extends AppCompatActivity {
 
         rvListDongeng.setLayoutManager(new LinearLayoutManager(this));
         rvListDongeng.setHasFixedSize(true);
-
         mainAdapter = new MainAdapter(this, modelMain);
         rvListDongeng.setAdapter(mainAdapter);
 
-        //get data JSON in background thread
         getDataDongeng();
     }
 
     private void getDataDongeng() {
         if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
-        
+
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             try {
@@ -105,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 stream.read(buffer);
                 stream.close();
                 String strContent = new String(buffer, StandardCharsets.UTF_8);
-                
+
                 List<ModelMain> tempList = getModelMains(strContent);
                 Collections.sort(tempList, ModelMain.sortByAsc);
 
